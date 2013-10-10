@@ -490,9 +490,14 @@ class JqTreeWidget extends MouseWidget
 
             class_string = li_classes.join(' ')
 
-            escaped_name = escapeIfNecessary(node.name)
+            html_value = ""
+            html_name  = "<span class='jqtree-title jqtree_common'>#{ escapeIfNecessary(node.name) }</span>"
+
+            if escapeIfNecessary(node.value) != "undefined"
+                html_value = "<span class='jqtree-value jqtree_common'>#{ escapeIfNecessary(node.value) }</span>"
+
             return $(
-                "<li class=\"#{ class_string }\"><div class=\"jqtree-element jqtree_common\"><span class=\"jqtree-title jqtree_common\">#{ escaped_name }</span></div></li>"
+                "<li class=\"#{ class_string }\"><div class=\"jqtree-element jqtree_common\">#{ html_name }#{ html_value }</div></li>"
             )
 
         createFolderLi = (node) =>
@@ -518,7 +523,12 @@ class JqTreeWidget extends MouseWidget
             button_classes = getButtonClasses()
             folder_classes = getFolderClasses()
 
-            escaped_name = escapeIfNecessary(node.name)
+            html_value = ""
+            html_name  = "<span class='jqtree-title jqtree_common'>#{ escapeIfNecessary(node.name) }</span>"
+
+            if escapeIfNecessary(node.value) != "undefined"
+                html_value = "<span class='jqtree-value jqtree_common'>#{ escapeIfNecessary(node.value) }</span>"
+
 
             if node.is_open
                 button_char = @options.openedIcon
@@ -526,7 +536,7 @@ class JqTreeWidget extends MouseWidget
                 button_char = @options.closedIcon
 
             return $(
-                "<li class=\"jqtree_common #{ folder_classes }\"><div class=\"jqtree-element jqtree_common\"><a class=\"jqtree_common #{ button_classes }\">#{ button_char }</a><span class=\"jqtree_common jqtree-title\">#{ escaped_name }</span></div></li>"
+                "<li class=\"jqtree_common #{ folder_classes }\"><div class=\"jqtree-element jqtree_common\"><a class=\"jqtree_common #{ button_classes }\">#{ button_char }</a>#{ html_name }#{ html_value }</div></li>"
             )
 
         doCreateDomElements = ($element, children, is_root_node, is_open) ->

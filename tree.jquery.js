@@ -1334,17 +1334,21 @@ limitations under the License.
         return $li;
       };
       createNodeLi = function(node) {
-        var class_string, escaped_name, li_classes;
+        var class_string, html_name, html_value, li_classes;
         li_classes = ['jqtree_common'];
         if (_this.select_node_handler && _this.select_node_handler.isNodeSelected(node)) {
           li_classes.push('jqtree-selected');
         }
         class_string = li_classes.join(' ');
-        escaped_name = escapeIfNecessary(node.name);
-        return $("<li class=\"" + class_string + "\"><div class=\"jqtree-element jqtree_common\"><span class=\"jqtree-title jqtree_common\">" + escaped_name + "</span></div></li>");
+        html_value = "";
+        html_name = "<span class='jqtree-title jqtree_common'>" + (escapeIfNecessary(node.name)) + "</span>";
+        if (escapeIfNecessary(node.value) !== "undefined") {
+          html_value = "<span class='jqtree-value jqtree_common'>" + (escapeIfNecessary(node.value)) + "</span>";
+        }
+        return $("<li class=\"" + class_string + "\"><div class=\"jqtree-element jqtree_common\">" + html_name + html_value + "</div></li>");
       };
       createFolderLi = function(node) {
-        var button_char, button_classes, escaped_name, folder_classes, getButtonClasses, getFolderClasses;
+        var button_char, button_classes, folder_classes, getButtonClasses, getFolderClasses, html_name, html_value;
         getButtonClasses = function() {
           var classes;
           classes = ['jqtree-toggler'];
@@ -1366,13 +1370,17 @@ limitations under the License.
         };
         button_classes = getButtonClasses();
         folder_classes = getFolderClasses();
-        escaped_name = escapeIfNecessary(node.name);
+        html_value = "";
+        html_name = "<span class='jqtree-title jqtree_common'>" + (escapeIfNecessary(node.name)) + "</span>";
+        if (escapeIfNecessary(node.value) !== "undefined") {
+          html_value = "<span class='jqtree-value jqtree_common'>" + (escapeIfNecessary(node.value)) + "</span>";
+        }
         if (node.is_open) {
           button_char = _this.options.openedIcon;
         } else {
           button_char = _this.options.closedIcon;
         }
-        return $("<li class=\"jqtree_common " + folder_classes + "\"><div class=\"jqtree-element jqtree_common\"><a class=\"jqtree_common " + button_classes + "\">" + button_char + "</a><span class=\"jqtree_common jqtree-title\">" + escaped_name + "</span></div></li>");
+        return $("<li class=\"jqtree_common " + folder_classes + "\"><div class=\"jqtree-element jqtree_common\"><a class=\"jqtree_common " + button_classes + "\">" + button_char + "</a>" + html_name + html_value + "</div></li>");
       };
       doCreateDomElements = function($element, children, is_root_node, is_open) {
         var $li, $ul, child, _i, _len;
